@@ -7,6 +7,13 @@
     <groupId>selenium</groupId>
     <artifactId>bdd</artifactId>
     <version>1.0-SNAPSHOT</version>
+
+
+    <properties>
+        <allure.version>2.13.1</allure.version>
+        <java.version>1.8</java.version>
+        <aspectj.version>1.9.5</aspectj.version>
+    </properties>
     <dependencies>
     <!-- These are the cucumber dependencies -->
     <!-- https://mvnrepository.com/artifact/info.cukes/cucumber-java -->
@@ -23,6 +30,13 @@
         <version>1.2.5</version>
         <scope>test</scope>
     </dependency>
+        <!-- https://mvnrepository.com/artifact/info.cukes/cucumber-html -->
+        <dependency>
+            <groupId>info.cukes</groupId>
+            <artifactId>cucumber-html</artifactId>
+            <version>0.2.6</version>
+
+        </dependency>
 
         <dependency>
             <groupId>junit</groupId>
@@ -37,4 +51,40 @@
             <version>3.141.0</version>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.22.2</version>
+                <configuration>
+                    <argLine>
+                        -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
+                    </argLine>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.aspectj</groupId>
+                        <artifactId>aspectjweaver</artifactId>
+                        <version>${aspectj.version}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+        </plugins>
+    </build>
+
+    <reporting>
+        <excludeDefaults>true</excludeDefaults>
+        <plugins>
+            <plugin>
+                <groupId>io.qameta.allure</groupId>
+                <artifactId>allure-maven</artifactId>
+                <version>2.10.0</version>
+                <configuration>
+                    <reportVersion>${allure.version}</reportVersion>
+                </configuration>
+            </plugin>
+        </plugins>
+    </reporting>
 </project>
